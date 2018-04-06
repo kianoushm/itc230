@@ -1,26 +1,22 @@
 {
-  "name": "ITC230 - Advance JavaScript",
-  "version": "0.1.0",
-  "description": "Class Assignments - Home",
+  "name": "itc230",
+  "version": "1.0.0",
+  "description": "Package for itc230",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
-  },
-  "engines": {
-    "node": "9.10.1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kianoushm/itc230"
+    "url": "git+https://github.com/kianoushm/itc230.git"
   },
   "keywords": [
-    "node",
-    "react",
-    "express"
+    "itc230"
   ],
   "author": "Kianoush Moradian",
-  "contributors": [
-    "Brenden West <brenden.west@seattlecolleges.edu>"
-  ],
-  "license": "MIT"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kianoushm/itc230/issues"
+  },
+  "homepage": "https://github.com/kianoushm/itc230#readme"
 }
