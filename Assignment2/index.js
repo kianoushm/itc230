@@ -1,38 +1,14 @@
-
 var http = require('http');
-var fs = require("fs");
 var url = require('url');
 var myBook = require('./book.js');
 
-
-http.createServer(function(req,res) {
-  
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
   /*Use the url module to turn the querystring into an object:*/
   var q = url.parse(req.url, true).query;
   var myTitle =q.title;
-  myTitle = myTitle;
-  var path = req.url;
-  
-  
+  var path = req.url.toLowerCase();
   switch(path) {
-  case '/':
-fs.readFile('./public/home.html', function (err, html) {
-   if (err) return console.error(err);
-   console.log(html);
-   res.writeHead(200, {'Content-Type': 'text/html'});
-   res.write(html);
-   res.end();
-    });
-  break;
-  case '/about':
-fs.readFile('./package.json', function (err, html) {
-   if (err) return console.error(err);
-   console.log(html);
-   res.writeHead(200, {'Content-Type': 'text/html'});
-   res.write(html);
-   res.end();
-});
-   break;
   case '/getall':
   res.writeHead(200, {'Content-Type': 'text/plain'}); 
   var allBooks  = myBook.getAll();
@@ -51,9 +27,11 @@ fs.readFile('./package.json', function (err, html) {
   res.write(deletedBook);
   res.end();
   break;
-    default:
-      res.writeHead(404, {'Content-Type': 'text/plain'});
-      res.end('404 Error - Page Not Found!');
-      break;
-    }
+  default:
+  res.writeHead(404, {'Content-Type': 'text/plain'});
+  res.end('Not found');
+  break;
+  }
+  
+  // res.end(path);
 }).listen(process.env.PORT || 3000);
