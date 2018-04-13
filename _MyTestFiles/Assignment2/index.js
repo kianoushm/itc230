@@ -3,11 +3,19 @@ var url = require('url');
 var myBook = require('./book.js');
 
 http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/html'});
+ 
   /*Use the url module to turn the querystring into an object:*/
   var q = url.parse(req.url, true).query;
   var myTitle =q.title;
+  console.log("Title from QA==>"+myTitle);
   var path = req.url.toLowerCase();
+  //handeling space in the query string - %20
+  path=path.replace(/%20/g, " ");
+  console.log("Path==>"+path);
+  // No matter what comes after getall. It shows all objects
+  if(path.indexOf("/getall") == 0) {
+    path = '/getall';
+  }
   switch(path) {
   case '/getall':
   res.writeHead(200, {'Content-Type': 'text/plain'}); 

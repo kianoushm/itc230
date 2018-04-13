@@ -12,7 +12,13 @@ http.createServer(function(req,res) {
   var myTitle =q.title;
   myTitle = myTitle;
   var path = req.url;
+  //handeling space in the query string - %20
+  path=path.replace(/%20/g, " ");
   
+   // No matter what comes after getall. It shows all objects
+  if(path.indexOf("/getall") == 0) {
+    path = '/getall';
+  }
   
   switch(path) {
   case '/':

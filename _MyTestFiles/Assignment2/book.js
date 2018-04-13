@@ -1,9 +1,9 @@
 
 var books = [
 {title:"PHP",author:"Luke Welling",pubdate:2001},
-{title:"NodeJS",author:"Andrew Mead",pubdate:2018},
-{title:"MongoDB",author:"Rick Copeland",pubdate:2013},
-{title:"Big Data",author:"Viktor Mayer-Schönberger",pubdate:2013},
+{title:"Node JS",author:"Andrew Mead",pubdate:2018},
+{title:"Mongo DB",author:"Rick Copeland",pubdate:2013},
+{title:"Big Data",author:"Viktor Mayer-Schonberger",pubdate:2013},
 {title:"cloud9",author:"Alex Campbell",pubdate:2015}
 	];
 
@@ -20,6 +20,7 @@ exports.getAll = function() {
 };
 
 exports.get = function(mytitle) {
+	console.log(books.title);
 var myBook = books.filter(function(book) {
   return book.title.toLowerCase() == mytitle.toLowerCase();
 });
