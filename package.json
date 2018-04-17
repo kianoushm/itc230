@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/kianoushm/itc230/issues"
   },
-  "homepage": "https://github.com/kianoushm/itc230#readme"
+  "homepage": "https://github.com/kianoushm/itc230#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
