@@ -42,19 +42,28 @@ fs.readFile('./package.json', function (err, html) {
   case '/getall':
   res.writeHead(200, {'Content-Type': 'text/plain'}); 
   var allBooks  = myBook.getAll();
-  res.write("All array items: \n\n"+allBooks);
+  res.write("All array items: \n\n"+JSON.stringify(allBooks));
   res.end();
   break;
   case '/get?title='+myTitle:
   res.writeHead(200, {'Content-Type': 'text/plain'});
   var specificBook = myBook.get(myTitle);
-  res.write("Searching for book title \""+myTitle+"\": \n\n"+specificBook);
+  var msg = JSON.stringify(specificBook);
+  if (msg=='[]'){msg = "There is no book for this book title";} else
+  if (myTitle=="") { msg = "Book title should not be blank!";}
+  res.write("Searching for book title \""+myTitle+"\": \n\n"+msg);
   res.end();
   break;
   case '/delete?title='+myTitle:
   res.writeHead(200, {'Content-Type': 'text/plain'});
   var deletedBook = myBook.delete(myTitle);
-  res.write(deletedBook);
+  var msg_del="";
+  if (deletedBook == true) {
+      msg_del = "Book Title=\""+myTitle+"\" removed!";
+  } else {
+      msg_del = "Book Title=\""+myTitle+"\" not removed!";
+  }
+  res.write(msg_del);
   res.end();
   break;
     default:
