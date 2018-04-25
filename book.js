@@ -20,6 +20,7 @@ var myBook = books.filter((book)=> {
 return (myBook);
 };
 
+
 exports.delete = (deletedTitle)=> {
 var counter = books.length;
 	books.forEach((element, index)=> {
@@ -34,3 +35,6 @@ var counter = books.length;
 			}
 };
 
+// Testing inside js file 
+// console.log("Output is -->"+JSON.stringify(this.get("php")));
+// console.log("Output is -->"+JSON.stringify(this.delete("php")));
