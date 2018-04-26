@@ -42,7 +42,7 @@ app.get('/getall', (req, res) => {
   res.send(output);
 });
 
-app.post('/detail', (req, res) => {  //detail path
+app.post('/detail', (req, res) => {  //detail path - Form Post Method
   var myTitle = req.body.title.trim().toLocaleLowerCase();
   var specificBook = myBook.get(myTitle);
   if (specificBook != "") {
@@ -55,7 +55,7 @@ app.post('/detail', (req, res) => {  //detail path
   }   
 });
 
-app.get('/detail', (req, res) => {
+app.get('/detail', (req, res) => { //detail path - Link Get Method
   var myTitle = req.query.title;
   var specificBook = myBook.get(myTitle);
   if (specificBook != "") {

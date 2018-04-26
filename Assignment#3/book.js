@@ -23,21 +23,13 @@ return myBook;
 }};
 
 exports.delete = (deletedTitle)=> {
-var msg ="";
 var deleteObj ={};
-var flag = 0;
-
 	books.forEach((element, index)=> {
 	if (deletedTitle.toLowerCase() == element.title.toLowerCase()) {	
 	books.splice(index,1);
-	// msg = "[BOOK Title=\""+deletedTitle+"\"] removed!";
-  	flag++;
 	}
     });
-	// if (flag==0) { msg = "[BOOK Title=\""+deletedTitle+"\"] not removed!";
-		
-	// 	deleteObj = {quantity:flag, title:deletedTitle, msg:deletedTitle+" not removed!"};
-	// }
+
 	deleteObj = {quantity:Object.keys(books).length, title:deletedTitle};
   return deleteObj;
    
