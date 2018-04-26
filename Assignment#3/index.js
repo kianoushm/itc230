@@ -55,7 +55,7 @@ app.post('/detail', (req, res) => {  //detail path
   }   
 });
 
-app.get('/list', (req, res) => {
+app.get('/detail', (req, res) => {
   var myTitle = req.query.title;
   var specificBook = myBook.get(myTitle);
   if (specificBook != "") {
