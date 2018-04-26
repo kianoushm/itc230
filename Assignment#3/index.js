@@ -51,7 +51,7 @@ app.post('/detail', (req, res) => {  //detail path
   myBookInfo.result = result;
   res.render('detail', myBookInfo); //detail.html file
   } else {
-  res.render('detail', {msg: "\""+myTitle+"\" not found!", wrongTitle:"\""+myTitle+"\""});
+  res.render('detail', {msg: "\""+myTitle+"\" Not Found!", wrongTitle:"\""+myTitle+"\""});
   }   
 });
 
