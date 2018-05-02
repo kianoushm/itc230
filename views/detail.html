@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ITC230 - Details Page</title>
+<link rel="stylesheet" type = "text/css" href ="./css/style.css" />
+</head>
+
+<body>
+<h1>Detail Page</h1>
+<h2>Searching for {{title}}{{wrongTitle}}</h2>
+{{#if result}}
+<ul>
+    <li>Title: {{ title }}</li>
+    <li>Author: {{ author }}</li>
+    <li>Publication Date: {{ pubdate }}</li>
+    </ul>
+ <br />
+ <br />
+ <a href="./delete?title={{ title }}">Delete Record</a> &nbsp;&nbsp;
+  {{else}}
+    {{msg}}
+{{/if}}
+ <a href="./">Go Back Home</a>
+</body>
+</html>
