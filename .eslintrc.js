@@ -10,6 +10,6 @@ module.exports = {
  "rules": {
    "prefer-arrow-callback": "warn",
    "no-var": "warn",
-   "no-extra-semi":"warn"
+   
  }
 };
