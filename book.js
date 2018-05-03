@@ -41,8 +41,8 @@ let deleteObj ={};
 
 
 exports.add = (newObject)=> {
-  var arrayCount = books.length;    
-  var found = books.findIndex((book)=>{
+  const arrayCount = books.length;    
+  let found = books.findIndex((book)=>{
   return book.title.toLowerCase() === newObject.title.toLowerCase();
 });
  if (found == -1) {
