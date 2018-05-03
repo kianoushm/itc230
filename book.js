@@ -34,14 +34,15 @@ let deleteObj ={};
     });
 
 	deleteObj = {quantity:Object.keys(books).length, title:deletedTitle};
+ 
   return deleteObj;
    
 };
 
-
-
+//console.log(JSON.stringify(this.delete("test")));
 exports.add = (newObject)=> {
   const arrayCount = books.length;    
+  if (typeof newObject.title === 'undefined') {return false;}
   let found = books.findIndex((book)=>{
   return book.title.toLowerCase() === newObject.title.toLowerCase();
 });
