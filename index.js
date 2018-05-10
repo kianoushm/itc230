@@ -53,16 +53,14 @@ myBook.deleteOne({title:myTitle}, function (err, items) {
 
 app.post('/detail', (req, res, next) => {  //detail path - Form Post Method
   var myTitle = req.body.title.trim();
-  //console.log("This is my title from form-->"+myTitle);
-   myBook.findOne({title:myTitle}, function (err, item) {
+  var my_pattern = new RegExp(myTitle, "i"); 
+   myBook.findOne({title:{$regex: my_pattern}}, function (err, item) {
   if (err) return next(err);
    var myBookInfo = item;
   let result = req.body.title;
   myBookInfo.result = result;
   res.render('detail', myBookInfo); //detail.html file
 });       
-   
-   
 });
 
 app.get('/detail', (req, res, next) => { //detail path - Link Get Method
@@ -75,6 +73,24 @@ app.get('/detail', (req, res, next) => { //detail path - Link Get Method
   res.render('detail', myBookInfo); //detail.html file
 }); 
 });
+
+
+
+// send plain text response
+app.get('/about', (req, res) => {
+ res.type('text/html');
+ res.sendFile(__dirname + '/package.json');
+});
+
+// send plain text response
+app.get('/getall', (req, res) => {
+  var allBooks  = myBook.getAll();
+  var output = JSON.stringify(allBooks);
+  res.type('text/plain');
+  res.send(output);
+});
+
+
 
 app.listen(app.get('port'), () => {
  console.log('Express started'); 
