@@ -11,7 +11,6 @@ const app = express();
 let handlebars =  require("express-handlebars");
 app.engine(".html", handlebars({extname: '.html'}));
 app.set("view engine", ".html");
-
 app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/public')); // set location for static files
 app.use(require("body-parser").urlencoded({extended: true})); // parse form submissions
@@ -37,7 +36,6 @@ app.get('/about', (req, res) => {
 app.get('/delete', (req, res, next) => {
   var qty=0;
   var myTitle = req.query.title;
-  
 myBook.deleteOne({title:myTitle}, function (err, items) {
  if (err) return next(err);
 });

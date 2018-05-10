@@ -17,9 +17,7 @@ conn.on('error', console.error.bind(console, 'connection error:'));
 var mySchema = mongoose.Schema({
  title: { type: String, required: true },
  author: String,
- count: Number,
- pubdate: Date,
- inStore: Boolean
+ pubdate: Date
 }); 
 
 module.exports = mongoose.model('Book', mySchema);
