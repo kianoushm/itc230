@@ -114,6 +114,26 @@ myBook.find({}, function (err, items) {
 });
 });
 
+
+
+
+//React route
+app.get('/react', (req, res, next) => {
+
+myBook.find({}, function (err, items) {
+  if (err) return next(err);
+  //console.log("All --> "+items);
+  // other code here
+  var allBooks  = items;
+ res.render('react-home', {books:JSON.stringify(allBooks)});
+});
+});
+
+
+
+
+
+
 // send plain text response
 app.get('/about', (req, res) => {
  res.type('text/html');
