@@ -3,6 +3,13 @@ body {
     background-color:#f6fbfc;
 }
 
+html * {
+    
+    padding:0;
+    margin:0;
+    
+}
+
 input {
     padding:5px;
     }
@@ -18,4 +25,37 @@ h1 {
     
     color:red;
     
+}
+
+.allBooks {
+    padding:3%;
+    background-color: #fff7f8;
+    width:44%;
+    float:left;
+    height:500px;
+}
+
+.allBooks ol {
+    
+    margin:30px;
+    
+}
+
+
+
+.allBooks a {
+  font-size: 110%;
+}
+
+.allBooks a:hover {
+  text-decoration: none;
+  
+}
+
+.bookdetail {
+    padding:3%;
+    background-color: #82CAFF;
+    width:44%;
+    float:right;
+    height:500px;
 }
