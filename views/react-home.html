@@ -9,12 +9,21 @@
     
     <body>
         
-        <div id="root"></div>
-        <hr />
-        <h1>Book Detail:</h1>
-        <div><ul id="detailroot"></ul></div>
+        <ul id="root"></div>
+       
         
         <script type="text/babel">
+     
+      function Bookdetail(props) {
+          return (
+            <ul className="all-list">
+            <li>Title: {props.title}</li>
+            <li>Author: {props.author}</li>
+            <li>Publication: {props.pubdate}</li>
+            </ul>  
+            );
+            }
+     
         
    class BookApp extends React.Component {
        
@@ -26,34 +35,46 @@
            this.state = {
                items:{{{books}}},
                filter:"",
-               curlItem:{}
+               curItem:{}
            }  
        }
        
+     
+       
+       
        showdetail(e) {
-           var bookTitle = e.target.id;
+           var bookId = e.target.id;
+          // console.log("-->"+bookId);
            var allBooks = this.state.items;
-           var found = allBooks.find(function(element) {
-              return element.title.toLowerCase() == bookTitle.toLowerCase();
+           var found = allBooks.find((element)=> {
+              return element._id.toLowerCase() == bookId.toLowerCase();
             });
-          
-            const result = <ul><li>Title: {found.title}</li><li>Author: {found.author}</li><li>Publication: {found.pubdate}</li></ul>; 
-            // ReactDOM.render(result,document.getElementById('root'));
+           this.setState({curItem:found});
+           //  ReactDOM.render(result,document.getElementById('root'));
+           // const result = <Bookdetail title={found.title}  author={found.author}  pubdate={found.pubdate}  />;
+            //ReactDOM.render(result,document.getElementById('root'));
             console.log("Book Title--> "+found.title);
           
        }
        
-       render() { 
-        
-          
+   
+    
+   render() { 
            
+    
     const data =this.state.items;
-    const listItems = data.map((d) => <li key={d.title}><a href="#" id={d.title} onClick = {this.showdetail}>{d.title}</a></li>);
+    const listItems = data.map((d) => <li key={d.title}><a href="#" id={d._id} onClick = {this.showdetail}>{d.title}</a></li>);
     return (
       <div>
-      <h1>List of Books:</h1>
+      <div className="allbooks"><h1>List of Books:</h1>
       {listItems }
-      
+      </div>
+     <hr />
+     <div className="bookdetail">
+      <h1>Book Details</h1>
+      <Bookdetail title={this.state.curItem.title} author={this.state.curItem.author} pubdate={this.state.curItem.pubdate} />
+
+      </div>
       </div>
       
     );
