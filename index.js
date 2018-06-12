@@ -3,6 +3,7 @@
 /*global next*/
 
 var myBook = require("./models/mongobook");
+let bodyParser = require("body-parser");
 
 
 'use strict';
@@ -16,6 +17,7 @@ app.set("view engine", ".html");
 app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/public')); // set location for static files
 app.use(require("body-parser").urlencoded({extended: true})); // parse form submissions
+app.use(bodyParser.json());
 
 //API routes start from here
 
@@ -45,21 +47,27 @@ var myTitle = req.params.title;
 });  
 });
 
-//delete and generate output
+//*****delete and generate output********************************************************
 app.get('/api/v1/book/delete/:title', (req,res, next) => {
+ console.log(req);     
 var myTitle = req.params.title;
+console.log(myTitle);
  myBook.deleteOne({title:myTitle}, function (err, items) {
+  // console.log(err)
+  // console.log(items)
  if (err) return next(err);
-  var deletedBook  = items;
-  if (deletedBook) {
-   if (deletedBook.n == 1){
-    res.json([{"deleted": true, "explaination": myTitle+" deleted!"}]);
-   } else {
-    res.json([{"deleted": false, "explaination": myTitle+" not deleted!"}]);
-   }
-   } else {
-    return res.status(500).send('Error occurred: database error.');
-  }
+ res.json({"success":true});
+ 
+  // var deletedBook  = items;
+  // if (deletedBook) {
+  //  if (deletedBook.n == 1){
+  //   res.json([{"deleted": true, "explaination": myTitle+" deleted!"}]);
+  //  } else {
+  //   res.json([{"deleted": false, "explaination": myTitle+" not deleted!"}]);
+  //  }
+  //  } else {
+  //   return res.status(500).send('Error occurred: database error.');
+  // }
 });
 });  
 

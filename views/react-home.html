@@ -22,25 +22,32 @@
      // Component to display Details
     function Bookdetail(props) {
           return (
-            <form>
+            <div>       
+        <form>
+        
+         <input
+              type="text" placeholder="Enter Title"  value={""}  onChange={props.change} />
+           </form>
             <table>
             <tbody>
             <tr>
             <td>Title: </td>
-            <td><input type="text" name="newtitle" value={props.title} /></td>
+            <td><input type="text" name="newtitle" value={props.title || ""} /></td>
             </tr>
              <tr>
             <td>Author: </td>
-            <td><input type="text" name="newauthor" value={props.author} /></td>
+            <td><input type="text" name="newauthor" value={props.author || ""} /></td>
             </tr>
              <tr>
             <td>Publication:</td>
-            <td><input type="text" name="newpubdate" value={props.pubdate} /></td>
+            <td><input type="text" name="newpubdate" value={props.pubdate || ""} /></td>
             </tr>
             </tbody>
             </table>
-           
-            </form>
+             <button onClick={props.update}>Update</button>
+             <button onClick={props.reset}>Reset</button> 
+             <button onClick={props.delete}>Delete</button> 
+             </div>
             );
             }
      
@@ -50,6 +57,10 @@
        constructor (props) {
            super(props)
            this.showdetail = this.showdetail.bind(this);
+           this.onDelete = this.onDelete.bind(this);
+        //   this.onUpdate = this.onUpdate.bind(this);
+           this.onReset = this.onReset.bind(this);
+            this.onChange = this.onChange.bind(this);
             
        //set initial state
            this.state = {
@@ -72,22 +83,67 @@
           
        }
        
+       // handle detail changes
+         onChange(e) {
+        var newTitle = e.target.title;  //????????????????????????????????????????
+        //alert(newTitle); //**************************************???
+        console.log( e.target);
+        var allBooks = this.state.items;
+           var found = allBooks.find((element)=> {
+              return element.title.toLowerCase() == newTitle.toLowerCase();
+            });
+            if(typeof found !== "undefined")
+            {
+              this.setState({curItem:found});
+            }
+        
+      }
+       
+       
+       
+   // clear details form
+    onReset() {
+          console.log("Reset Button Clicked"); // ?????????????
+        this.setState({curItem: {"title":"-","author":"-","pubdate":2018}});
+      }
    
-    
+    onDelete(){
+        
+        console.log("*****TEST--TEST");
+        let title = this.state.curItem.title;
+        console.log(title);
+        
+       // console.log(title);
+        fetch('/api/v1/book/delete/' + title).then((response) => {
+            console.log(response);
+            alert("Title-->"+title+"  Result-->"+JSON.stringify(response));
+          return response.json();
+        }).then((results) => {
+        
+          const newArray = this.state.items.filter((item) => {
+            return item.title !== title;
+          });
+          // New array updates here - changing state
+          this.setState({items: newArray, curItem: {}});
+        });
+      }
+   
+ 
+   
    render() { 
            
-    
     const data =this.state.items;
     const listItems = data.map((d) => <li key={d.title}><a href="#" id={d._id} onClick = {this.showdetail}>{d.title}</a></li>);
     return (
       <div>
       <div className="allbooks"><h1>List of Books:</h1>
-      <ol>{listItems }</ol>
+      <ol>{listItems}</ol>
       </div>
    
      <div className="bookdetail">
       <h1>Book Details</h1>
-      <Bookdetail title={this.state.curItem.title} author={this.state.curItem.author} pubdate={this.state.curItem.pubdate} />
+      <Bookdetail reset={this.onReset} delete={this.onDelete} change={this.onChange}  title={this.state.curItem.title} author={this.state.curItem.author} pubdate={this.state.curItem.pubdate} />
+      
       </div>
       </div>
       
