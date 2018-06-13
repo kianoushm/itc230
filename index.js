@@ -207,7 +207,7 @@ app.get('/getall', (req, res) => {
 
 
 app.listen(app.get('port'), () => {
- console.log('Express started'); 
+ console.log('Express started on ' + process.env.IP); 
 });
 
 // define 404 handler

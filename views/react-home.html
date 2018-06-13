@@ -23,11 +23,10 @@
     function Bookdetail(props) {
           return (
             <div>       
-        <form>
-        
-         <input
-              type="text" placeholder="Enter Title"  value={""}  onChange={props.change} />
-           </form>
+             <form>
+        <label>Filter:  </label>
+         <input type="text" value={""}  onChange={props.change}  />
+         <br />(Enter * to see all items)
             <table>
             <tbody>
             <tr>
@@ -44,6 +43,10 @@
             </tr>
             </tbody>
             </table>
+   </form>
+           
+            
+
              <button onClick={props.update}>Update</button>
              <button onClick={props.reset}>Reset</button> 
              <button onClick={props.delete}>Delete</button> 
@@ -60,7 +63,7 @@
            this.onDelete = this.onDelete.bind(this);
         //   this.onUpdate = this.onUpdate.bind(this);
            this.onReset = this.onReset.bind(this);
-            this.onChange = this.onChange.bind(this);
+           this.onChange = this.onChange.bind(this);
             
        //set initial state
            this.state = {
@@ -73,46 +76,31 @@
      
        showdetail(e) {
            var bookId = e.target.id;
-          // console.log("-->"+bookId);
            var allBooks = this.state.items;
            var found = allBooks.find((element)=> {
               return element._id.toLowerCase() == bookId.toLowerCase();
             });
            this.setState({curItem:found});
-        //console.log("Book Title--> "+found.title);
-          
+        
        }
        
-       // handle detail changes
+       
+      // handle filter 
          onChange(e) {
-        var newTitle = e.target.title;  //????????????????????????????????????????
-        //alert(newTitle); //**************************************???
-        console.log( e.target);
-        var allBooks = this.state.items;
-           var found = allBooks.find((element)=> {
-              return element.title.toLowerCase() == newTitle.toLowerCase();
-            });
-            if(typeof found !== "undefined")
-            {
-              this.setState({curItem:found});
-            }
-        
-      }
-       
-       
+         this.setState({filter:e.target.value});
+          }
        
    // clear details form
     onReset() {
-          console.log("Reset Button Clicked"); // ?????????????
         this.setState({curItem: {"title":"-","author":"-","pubdate":2018}});
+        
       }
    
     onDelete(){
         
         console.log("*****TEST--TEST");
         let title = this.state.curItem.title;
-        console.log(title);
-        
+       //  path     /api/v1/book/delete/:title
        // console.log(title);
         fetch('/api/v1/book/delete/' + title).then((response) => {
             console.log(response);
@@ -129,10 +117,21 @@
       }
    
  
-   
    render() { 
-           
-    const data =this.state.items;
+          
+    let data =this.state.items;  //I am using regex to filter
+    let myRegexString = "^"+this.state.filter.toLowerCase();
+      if(myRegexString=="^*"){
+        myRegexString = "^[a-zA-Z0-9_.-]*$";
+    }
+    let myRegex = new RegExp(myRegexString);
+    
+    data = data.filter(function(item){
+       return  myRegex.test(item.title.toLowerCase());
+    }).map(function({_id, title, author, pubdate}){
+        return {_id, title, author, pubdate};
+    });
+
     const listItems = data.map((d) => <li key={d.title}><a href="#" id={d._id} onClick = {this.showdetail}>{d.title}</a></li>);
     return (
       <div>
@@ -142,7 +141,7 @@
    
      <div className="bookdetail">
       <h1>Book Details</h1>
-      <Bookdetail reset={this.onReset} delete={this.onDelete} change={this.onChange}  title={this.state.curItem.title} author={this.state.curItem.author} pubdate={this.state.curItem.pubdate} />
+      <Bookdetail reset={this.onReset} delete={this.onDelete} change={this.onChange} title={this.state.curItem.title} author={this.state.curItem.author} pubdate={this.state.curItem.pubdate} />
       
       </div>
       </div>
