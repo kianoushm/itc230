@@ -26,7 +26,7 @@
              <form>
         <label>Filter:  </label>
          <input type="text" value={""}  onChange={props.change}  />
-         <br />(Enter * to see all items)
+         <br />(Enter * or Space to see all items)<br />
             <table>
             <tbody>
             <tr>
@@ -61,7 +61,7 @@
            super(props)
            this.showdetail = this.showdetail.bind(this);
            this.onDelete = this.onDelete.bind(this);
-        //   this.onUpdate = this.onUpdate.bind(this);
+         this.onUpdate = this.onUpdate.bind(this);
            this.onReset = this.onReset.bind(this);
            this.onChange = this.onChange.bind(this);
             
@@ -87,6 +87,7 @@
        
       // handle filter 
          onChange(e) {
+         console.log("My Input-->"+ e.target.value);
          this.setState({filter:e.target.value});
           }
        
@@ -117,11 +118,46 @@
       }
    
  
+ onUpdate(){
+        
+       
+        let title = this.state.curItem.title;
+       //  path     /api/v1/book/delete/:title
+       // console.log(title);
+        fetch('/api/v1/book/delete/' + title).then((response) => {
+            console.log(response);
+            alert("Title-->"+title+"  Result-->"+JSON.stringify(response));
+          return response.json();
+        }).then((results) => {
+        
+          const newArray = this.state.items.filter((item) => {
+            return item.title !== title;
+          });
+          // New array updates here - changing state
+          this.setState({items: newArray, curItem: {}});
+        });
+      }
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
    render() { 
           
     let data =this.state.items;  //I am using regex to filter
     let myRegexString = "^"+this.state.filter.toLowerCase();
-      if(myRegexString=="^*"){
+      if(myRegexString=="^*" || myRegexString=="^ "){
         myRegexString = "^[a-zA-Z0-9_.-]*$";
     }
     let myRegex = new RegExp(myRegexString);
@@ -141,7 +177,7 @@
    
      <div className="bookdetail">
       <h1>Book Details</h1>
-      <Bookdetail reset={this.onReset} delete={this.onDelete} change={this.onChange} title={this.state.curItem.title} author={this.state.curItem.author} pubdate={this.state.curItem.pubdate} />
+      <Bookdetail reset={this.onReset} delete={this.onDelete} change={this.onChange} update={this.onUpdate} title={this.state.curItem.title} author={this.state.curItem.author} pubdate={this.state.curItem.pubdate} />
       
       </div>
       </div>
