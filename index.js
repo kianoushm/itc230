@@ -77,6 +77,24 @@ res.render('add');
 });
 
 
+app.post('/api/v1/add/', (req,res, next) => {
+    // find & update existing item, or add new 
+    if (!req.body._id) { // insert new document
+        let book = new myBook({title:req.body.title,author:req.body.author,pubdate:req.body.pubdate});
+        book.save((err,newBook) => {
+            if (err) return next(err);
+            console.log(newBook)
+            res.json({updated: 0, _id: newBook._id});
+        });
+    } else { // update existing document
+        myBook.updateOne({ _id: req.body._id}, {title:req.body.title, author: req.body.author, pubdate: req.body.pubdate }, (err, result) => {
+            if (err) return next(err);
+            res.json({updated: result.nModified, _id: req.body._id});
+        });
+    }
+});
+
+
 //add new document and generate output
 app.post('/add', (req, res, next) => {  
   

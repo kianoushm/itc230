@@ -1,195 +1,183 @@
 <html>
-    <head>
-    <!-- React Library Links  --> 
-    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
-        
-        
-    <link rel="stylesheet" type = "text/css" href ="./css/style.css" />
-    
-        
-        
-    </head>
-    
-    
-    <body>
-        
-        <div id="root"></div>
-       
-        
-        <script type="text/babel">
-     // Component to display Details
-    function Bookdetail(props) {
-          return (
-            <div>       
-             <form>
-        <label>Filter:  </label>
-         <input type="text" value={""}  onChange={props.change}  />
-         <br />(Enter * or Space to see all items)<br />
-            <table>
-            <tbody>
-            <tr>
-            <td>Title: </td>
-            <td><input type="text" name="newtitle" value={props.title || ""} /></td>
-            </tr>
-             <tr>
-            <td>Author: </td>
-            <td><input type="text" name="newauthor" value={props.author || ""} /></td>
-            </tr>
-             <tr>
-            <td>Publication:</td>
-            <td><input type="text" name="newpubdate" value={props.pubdate || ""} /></td>
-            </tr>
-            </tbody>
-            </table>
-   </form>
-           
-            
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>React App Demo</title>
 
-             <button onClick={props.update}>Update</button>
-             <button onClick={props.reset}>Reset</button> 
-             <button onClick={props.delete}>Delete</button> 
-             </div>
-            );
-            }
-     
-        
-   class BookApp extends React.Component {
-       
-       constructor (props) {
-           super(props)
-           this.showdetail = this.showdetail.bind(this);
-           this.onDelete = this.onDelete.bind(this);
-         this.onUpdate = this.onUpdate.bind(this);
-           this.onReset = this.onReset.bind(this);
-           this.onChange = this.onChange.bind(this);
-            
-       //set initial state
-           this.state = {
-               items:{{{books}}},
-               filter:"",
-               curItem:{"_id":"123","title":"-","author":"-","pubdate":"0000"}
-           }  
-       }
-       
-     
-       showdetail(e) {
-           var bookId = e.target.id;
-           var allBooks = this.state.items;
-           var found = allBooks.find((element)=> {
-              return element._id.toLowerCase() == bookId.toLowerCase();
-            });
-           this.setState({curItem:found});
-        
-       }
-       
-       
-      // handle filter 
-         onChange(e) {
-         console.log("My Input-->"+ e.target.value);
-         this.setState({filter:e.target.value});
-          }
-       
-   // clear details form
-    onReset() {
-        this.setState({curItem: {"title":"-","author":"-","pubdate":2018}});
-        
-      }
-   
-    onDelete(){
-        
-        console.log("*****TEST--TEST");
-        let title = this.state.curItem.title;
-       //  path     /api/v1/book/delete/:title
-       // console.log(title);
-        fetch('/api/v1/book/delete/' + title).then((response) => {
-            console.log(response);
-            alert("Title-->"+title+"  Result-->"+JSON.stringify(response));
-          return response.json();
-        }).then((results) => {
-        
-          const newArray = this.state.items.filter((item) => {
-            return item.title !== title;
-          });
-          // New array updates here - changing state
-          this.setState({items: newArray, curItem: {}});
-        });
-      }
-   
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.0/react.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.0/react-dom.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
  
- onUpdate(){
-        
-       
-        let title = this.state.curItem.title;
-       //  path     /api/v1/book/delete/:title
-       // console.log(title);
-        fetch('/api/v1/book/delete/' + title).then((response) => {
-            console.log(response);
-            alert("Title-->"+title+"  Result-->"+JSON.stringify(response));
-          return response.json();
-        }).then((results) => {
-        
-          const newArray = this.state.items.filter((item) => {
-            return item.title !== title;
-          });
-          // New array updates here - changing state
-          this.setState({items: newArray, curItem: {}});
-        });
-      }
-   
+ <link rel="stylesheet" type = "text/css" href ="./css/style.css" />
  
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-   render() { 
-          
-    let data =this.state.items;  //I am using regex to filter
-    let myRegexString = "^"+this.state.filter.toLowerCase();
-      if(myRegexString=="^*" || myRegexString=="^ "){
-        myRegexString = "^[a-zA-Z0-9_.-]*$";
-    }
-    let myRegex = new RegExp(myRegexString);
-    
-    data = data.filter(function(item){
-       return  myRegex.test(item.title.toLowerCase());
-    }).map(function({_id, title, author, pubdate}){
-        return {_id, title, author, pubdate};
-    });
 
-    const listItems = data.map((d) => <li key={d.title}><a href="#" id={d._id} onClick = {this.showdetail}>{d.title}</a></li>);
-    return (
-      <div>
-      <div className="allbooks"><h1>List of Books:</h1>
-      <ol>{listItems}</ol>
-      </div>
-   
-     <div className="bookdetail">
-      <h1>Book Details</h1>
-      <Bookdetail reset={this.onReset} delete={this.onDelete} change={this.onChange} update={this.onUpdate} title={this.state.curItem.title} author={this.state.curItem.author} pubdate={this.state.curItem.pubdate} />
-      
-      </div>
-      </div>
-      
-    );
-  } 
-} 
+</head>
+<body>
+
+  <div id="root"></div>
+
+<!-- NOTE: text/babel type required to support JSX -->
+<script type="text/babel">
   
-        ReactDOM.render (<BookApp />, document.getElementById('root'));
-          
-         
-         
-        </script>
-    </body>
-    </html>
+    // define overal app component
+    class BookApp extends React.Component{
+      constructor(props){
+        super(props); // be sure to first instantiate parent class
+        // Set initial state using data from server application
+        this.state = {
+          items: {{{books}}},
+          filter: "", // search term 
+          curItem: {} // current selected item 
+        };
+        // bind App context to functions used by child components
+        this.onSearchChange = this.onSearchChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onSave = this.onSave.bind(this);
+        this.onDelete = this.onDelete.bind(this);
+        this.onReset = this.onReset.bind(this);
+      }
+      // handle changes to search form
+      onSearchChange(event) {
+        // set search term. react will handle component updates 
+        this.setState({filter: event.target.value.toLowerCase() });
+      }
+      // show item details when list item clicked
+      showDetails(event){
+        // event.target is item clicked. Assumes each item has an id attribute
+        let editItem = this.state.items.find((item) => {
+          return item._id == event.target.id;
+        });
+        this.setState({curItem: editItem});
+      }
+      // clear details form
+      onReset() {
+        this.setState({curItem: {}});
+      }
+      // handle detail changes
+      onChange(event) {
+        var newItem = this.state.curItem;
+        newItem[event.target.name] = event.target.value
+        this.setState({curItem: newItem});
+      }
+      // Handle item save
+      onSave() {
+        let newItem = this.state.curItem;
+        if (!newItem.title) {
+          return;
+        }
+      fetch("/api/v1/add/", {
+          method: "POST",
+        	headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newItem)
+        }).then(res => res.json())
+        	.then((json) => {
+          let newData;
+          if (!newItem._id) { // add new item to array
+            newData = this.state.items;
+            newItem._id = json._id;
+            newData.push(newItem);
+          } else { // update existing item 
+            newData = this.state.items.map((item) => {
+              if (item._id === newItem._id) {
+                item = newItem; 
+              }
+              return item;
+            });          
+          }
+  
+          // Update state with new array
+          this.setState({items: newData});
+        });
+      }
+      
+      // Handle item delete
+      onDelete(){
+        let id = this.state.curItem._id;
+        
+        fetch("/api/v1/book/delete/" + id).then((res) => {
+          return res.json();
+        }).then((results) => {
+          // Filter all items except the one to be removed
+          const remainder = this.state.items.filter((item) => {
+            return item._id !== id;
+          });
+          // Update state with new array
+          this.setState({items: remainder, curItem: {}});
+        });
+      }
+    
+      render() {
+        // render app elements
+        return (
+          <div>
+          <Title title="Book Store" />
+          <SearchForm filter={this.state.filter} change={this.onSearchChange} />
+          <div className="flex-container">
+            <ItemList
+                items={this.state.items} 
+                filter={this.state.filter}
+                show={this.showDetails.bind(this)}
+            />
+            <ItemDetails item={this.state.curItem} change={this.onChange} save={this.onSave} reset={this.onReset} delete={this.onDelete} />
+            </div>
+          </div>
+          );
+      }
+    }
+    
+    // UI elements
+    const Title = ({title}) => {
+        return (
+           <div><h2>{title}</h2></div>
+        );
+    }
+    const SearchForm = (props) => {
+        return (
+          <div id="myFilterForm">
+            <input
+              type="text" placeholder="Enter a search term"
+              value={props.filter}
+              onChange={props.change}
+            /><p/>
+          </div>
+        );
+    }
+    const ItemList = ({items, filter, show}) => {
+      // return items that match search entry field, or all items if no entry
+      const itemNodes = items.map((item) => {
+        if (!filter || item.title.toLowerCase().includes(filter)) { 
+          return <li key={item._id}><a href="#"  id={item._id} onClick={show}>{item.title}</a></li>
+        }
+      });
+      return <span id="item-list"><h1>List of Books:</h1><ol>{itemNodes}</ol></span>;
+    }
+    
+    const ItemDetails = (props) => {
+        return (
+          <span id="item-details">
+            <h1>Book Details:</h1>
+            <br />
+            <form onChange={props.change}>
+              <input type="text" name="title" placeholder="title" value={props.item.title || ""} /><p/>
+              <input type="text" name="author" placeholder="author" value={props.item.author || ""} /><p/>
+              <input type="date" name="pubdate" placeholder="pub. date" value={getISOstring(props.item.pubdate)} />
+              <p/>
+            </form>
+            <button onClick={props.save}>Save</button>  <button onClick={props.reset}>Reset</button> <button onClick={props.delete}>Delete</button>
+          </span>
+        );
+    }
+  
+    ReactDOM.render(<BookApp />, document.getElementById('root'));
+  // convert date value to yyyy-mm-dd expected by HTML5 date field
+  function getISOstring(dateString) {
+    let date = (dateString) ? new Date(dateString) : new Date();
+    let month = (date.getMonth() >=9) ? date.getMonth()+1 : "0" + (date.getMonth()+1);
+    let day = (date.getDate() >=10) ? date.getDate() : "0" + date.getDate();
+    return date.getFullYear() + "-" + month + "-" + day;    
+  }
+  
+</script>
+</body>
+</html>

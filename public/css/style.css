@@ -12,9 +12,10 @@ html * {
 
 input {
     padding:5px;
+    margin:3px 0;
     }
 a {
-    
+    color:blue;
 }
 
 a:hover {
@@ -69,3 +70,33 @@ button {
     
     padding:5px 8px;
 }
+
+
+  #item-list{
+    padding:3%;
+    background-color: #fff7f8;
+    width:44%;
+    float:left;
+    height:400px;
+}
+
+#item-list ol {
+    
+    margin:30px;
+    
+}
+  
+  
+  #item-details {
+      padding:3%;
+    background-color: #82CAFF;
+    width:44%;
+    float:right;
+    height:400px;
+  }
+  
+  #myFilterForm {
+      
+      background-image:green;
+      
+  }
